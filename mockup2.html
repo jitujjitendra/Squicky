@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Squicky.in - Level Up Your Web Experience</title>
+    <meta name="description" content="Level up your web experience with Squicky - privacy-first browser tools and games. Play media, edit PDFs, and unlock achievements without compromising your data.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -1375,6 +1376,32 @@ img, svg {
     .footer__bottom {
         flex-direction: column;
         text-align: center;
+    }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .particle {
+        display: none;
+    }
+
+    .hero-mascot__svg {
+        animation: none;
+    }
+
+    .typing-text::after {
+        animation: none;
+    }
+
+    .xp-bar__fill::after {
+        animation: none;
     }
 }
 

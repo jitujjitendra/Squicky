@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Squicky.in - Your All-in-One Web Toolkit</title>
+    <meta name="description" content="Privacy-first browser-based web tools and games. Play media in 14+ formats, edit PDFs with 9 tools, and more - all without uploading your files.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1075,6 +1076,30 @@
                 flex-direction: column;
             }
         }
+
+        /* ===== Reduced Motion ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .squirrel-mascot {
+                animation: none;
+            }
+
+            .hero-badge::before {
+                animation: none;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1123,10 +1148,10 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#tools" onclick="closeMobileMenu()">Tools</a>
-        <a href="#games" onclick="closeMobileMenu()">Games</a>
-        <a href="#blog" onclick="closeMobileMenu()">Blog</a>
-        <a href="#about" onclick="closeMobileMenu()">About</a>
+        <a href="#tools">Tools</a>
+        <a href="#games">Games</a>
+        <a href="#blog">Blog</a>
+        <a href="#about">About</a>
     </div>
 
     <!-- ===== Hero Section ===== -->
@@ -1217,7 +1242,7 @@
                         <span class="tool-feature-badge">4K Quality</span>
                         <span class="tool-feature-badge">Zero Uploads</span>
                     </div>
-                    <a href="https://player.squicky.in" class="btn btn-primary" target="_blank">Launch Player</a>
+                    <a href="https://player.squicky.in" class="btn btn-primary" target="_blank" rel="noopener">Launch Player</a>
                 </div>
                 <!-- Squicky PDF -->
                 <div class="tool-card reveal">
@@ -1231,7 +1256,7 @@
                         <span class="tool-feature-badge">100% Private</span>
                         <span class="tool-feature-badge">No Server</span>
                     </div>
-                    <a href="https://pdf.squicky.in" class="btn btn-primary" target="_blank">Open PDF Tools</a>
+                    <a href="https://pdf.squicky.in" class="btn btn-primary" target="_blank" rel="noopener">Open PDF Tools</a>
                 </div>
                 <!-- Squicky Image (Coming Soon) -->
                 <div class="tool-card coming-soon reveal">
@@ -1561,6 +1586,11 @@
             mobileMenu.classList.remove('active');
             document.body.style.overflow = '';
         }
+
+        // Close mobile menu when any link inside is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
 
         // ===== Scroll Reveal =====
         const revealElements = document.querySelectorAll('.reveal');
