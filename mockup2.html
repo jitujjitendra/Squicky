@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squicky.in - Level Up Your Web Experience</title>
+    <meta name="description" content="Level up your web experience with Squicky - privacy-first browser tools and games. Play media, edit PDFs, and unlock achievements without compromising your data.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+/* ===== CSS RESET & VARIABLES ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0a0015;
+    --bg-secondary: #1a0a2e;
+    --bg-card: #150825;
+    --bg-card-hover: #1f0d35;
+    --text-primary: #ffffff;
+    --text-secondary: #b8a5d4;
+    --text-muted: #7a6898;
+    --neon-green: #00ff88;
+    --neon-green-dim: #00cc6a;
+    --electric-blue: #00d4ff;
+    --hot-pink: #ff006e;
+    --neon-purple: #bf5af2;
+    --gold: #ffd700;
+    --border-color: rgba(0, 255, 136, 0.15);
+    --glow-green: 0 0 10px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.3);
+    --glow-blue: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+    --glow-pink: 0 0 10px rgba(255, 0, 110, 0.5), 0 0 20px rgba(255, 0, 110, 0.3);
+    --font-display: 'Orbitron', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --radius: 12px;
+    --transition: 0.3s ease;
+}
+
+[data-theme="light"] {
+    --bg-primary: #f0f0ff;
+    --bg-secondary: #e8e0f8;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f5f0ff;
+    --text-primary: #1a0a2e;
+    --text-secondary: #4a3a6e;
+    --text-muted: #7a6898;
+    --neon-green: #00994d;
+    --neon-green-dim: #007a3d;
+    --electric-blue: #0088aa;
+    --hot-pink: #cc0058;
+    --neon-purple: #8a2be2;
+    --border-color: rgba(0, 153, 77, 0.25);
+    --glow-green: 0 0 5px rgba(0, 153, 77, 0.3);
+    --glow-blue: 0 0 5px rgba(0, 136, 170, 0.3);
+    --glow-pink: 0 0 5px rgba(204, 0, 88, 0.3);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img, svg {
+    max-width: 100%;
+    display: block;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== NAVIGATION / HUD BAR ===== */
+.nav-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(10, 0, 21, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+[data-theme="light"] .nav-hud {
+    background: rgba(240, 240, 255, 0.92);
+}
+
+.nav-hud__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-hud__logo svg {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.6));
+}
+
+.nav-hud__logo span {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    letter-spacing: 1px;
+}
+
+.nav-hud__links {
+    display: flex;
+    gap: 4px;
+}
+
+.nav-hud__links a {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.nav-hud__links a:hover,
+.nav-hud__links a.active {
+    color: var(--neon-green);
+    background: rgba(0, 255, 136, 0.08);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.nav-hud__links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--neon-green);
+    border-radius: 2px;
+    box-shadow: var(--glow-green);
+}
+
+.nav-hud__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-bell {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.nav-bell:hover {
+    border-color: var(--electric-blue);
+    box-shadow: var(--glow-blue);
+    color: var(--electric-blue);
+}
+
+.nav-bell__dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 7px;
+    height: 7px;
+    background: var(--hot-pink);
+    border-radius: 50%;
+    box-shadow: var(--glow-pink);
+}
+
+/* Power Switch Toggle */
+.power-switch {
+    width: 52px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.power-switch::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    transition: var(--transition);
+    box-shadow: var(--glow-green);
+}
+
+[data-theme="light"] .power-switch::before {
+    left: 26px;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.power-switch:hover {
+    border-color: var(--neon-green);
+}
+
+/* Mobile menu button */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: transparent;
+}
+
+.mobile-menu-btn span {
+    width: 22px;
+    height: 2px;
+    background: var(--neon-green);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+@media (max-width: 768px) {
+    .nav-hud__links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(10, 0, 21, 0.98);
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    [data-theme="light"] .nav-hud__links {
+        background: rgba(240, 240, 255, 0.98);
+    }
+    .nav-hud__links.open {
+        display: flex;
+    }
+    .mobile-menu-btn {
+        display: flex;
+    }
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px 60px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 0%, rgba(26, 10, 46, 1) 0%, var(--bg-primary) 70%);
+}
+
+.hero__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--neon-green);
+    opacity: 0.6;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-20vh) scale(1);
+        opacity: 0;
+    }
+}
+
+.hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+}
+
+.hero__mascot {
+    margin: 0 auto 30px;
+    width: 200px;
+    height: 200px;
+    animation: mascotBounce 3s ease-in-out infinite;
+}
+
+@keyframes mascotBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.hero__headline {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: var(--text-primary);
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.4), 0 0 40px rgba(0, 255, 136, 0.2);
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.hero__headline .accent {
+    color: var(--neon-green);
+}
+
+.hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    min-height: 1.8em;
+}
+
+.hero__typing {
+    display: inline;
+    border-right: 2px solid var(--neon-green);
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+/* XP Bar */
+.xp-bar {
+    max-width: 400px;
+    margin: 24px auto 32px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    height: 20px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.xp-bar__fill {
+    height: 100%;
+    width: 72%;
+    background: linear-gradient(90deg, var(--neon-green), var(--electric-blue));
+    border-radius: 20px;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+    animation: xpPulse 2s ease-in-out infinite;
+    position: relative;
+}
+
+.xp-bar__fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: xpShine 2s linear infinite;
+}
+
+@keyframes xpShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes xpPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+.xp-bar__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-align: center;
+}
+
+/* CTA Buttons */
+.hero__ctas {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-neon {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: 2px solid var(--neon-green);
+    background: rgba(0, 255, 136, 0.08);
+    color: var(--neon-green);
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: btnPulse 2s ease-in-out infinite;
+}
+
+.btn-neon:hover {
+    background: rgba(0, 255, 136, 0.2);
+    box-shadow: var(--glow-green), inset 0 0 20px rgba(0, 255, 136, 0.1);
+    transform: translateY(-2px);
+}
+
+@keyframes btnPulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.5), 0 0 30px rgba(0, 255, 136, 0.2); }
+}
+
+.btn-neon--pink {
+    border-color: var(--hot-pink);
+    color: var(--hot-pink);
+    background: rgba(255, 0, 110, 0.08);
+    animation-name: btnPulsePink;
+}
+
+.btn-neon--pink:hover {
+    background: rgba(255, 0, 110, 0.2);
+    box-shadow: var(--glow-pink), inset 0 0 20px rgba(255, 0, 110, 0.1);
+    transform: translateY(-2px);
+}
+
+@keyframes btnPulsePink {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 110, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(255, 0, 110, 0.5), 0 0 30px rgba(255, 0, 110, 0.2); }
+}
+
+/* ===== SECTION SHARED STYLES ===== */
+.section {
+    padding: 100px 20px;
+    position: relative;
+}
+
+.section__header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section__title .glow {
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.section__subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ===== TOOLS / POWER-UPS SECTION ===== */
+.tools-section {
+    background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.power-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 30px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.power-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--neon-green), var(--electric-blue));
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.power-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--neon-green);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.15), inset 0 0 30px rgba(0, 255, 136, 0.03);
+    transform: translateY(-4px);
+}
+
+.power-card:hover::before {
+    opacity: 1;
+}
+
+.power-card--locked {
+    opacity: 0.6;
+    filter: grayscale(0.3);
+}
+
+.power-card--locked:hover {
+    transform: none;
+    border-color: var(--border-color);
+    box-shadow: none;
+}
+
+.power-card__level {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--electric-blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.power-card__icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.power-card__name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.power-card__desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Stat bars */
+.stat-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.stat-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-bar__label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    width: 90px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.stat-bar__track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.stat-bar__fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--neon-green), var(--electric-blue));
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+}
+
+.stat-bar__value {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--neon-green);
+    width: 36px;
+    text-align: right;
+}
+
+.btn-activate {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: 1px solid var(--neon-green);
+    background: rgba(0, 255, 136, 0.08);
+    color: var(--neon-green);
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-activate:hover {
+    background: rgba(0, 255, 136, 0.2);
+    box-shadow: var(--glow-green);
+}
+
+.lock-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.lock-overlay__icon {
+    font-size: 2.5rem;
+    opacity: 0.6;
+}
+
+.lock-overlay__text {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== GAMES SECTION ===== */
+.games-section {
+    background: var(--bg-primary);
+    position: relative;
+}
+
+.games-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+}
+
+.badge-new {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: var(--hot-pink);
+    color: #fff;
+    margin-left: 12px;
+    vertical-align: middle;
+    animation: badgePulse 1.5s ease-in-out infinite;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 110, 0.5); transform: scale(1); }
+    50% { box-shadow: 0 0 15px rgba(255, 0, 110, 0.8); transform: scale(1.05); }
+}
+
+.games-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .games-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.games-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.game-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Scanline effect */
+.game-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 136, 0.02) 2px,
+        rgba(0, 255, 136, 0.02) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.game-card:hover {
+    border-color: var(--electric-blue);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    transform: translateX(4px);
+}
+
+.game-card__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.game-card__info {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.game-card__name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.game-card__genre {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--electric-blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.game-card__desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.game-card__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(0, 212, 255, 0.15);
+    border: 1px solid var(--electric-blue);
+    color: var(--electric-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: comingSoonPulse 2s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes comingSoonPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Leaderboard */
+.leaderboard {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+.leaderboard__title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.leaderboard__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.leaderboard__item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard__rank {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    width: 24px;
+}
+
+.leaderboard__name {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.leaderboard__score {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--neon-green);
+}
+
+/* ===== BLOG / PATCH NOTES SECTION ===== */
+.blog-section {
+    background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.patch-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: var(--transition);
+    position: relative;
+}
+
+.patch-card:hover {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 20px rgba(191, 90, 242, 0.15);
+    transform: translateY(-3px);
+}
+
+.patch-card__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.patch-card__version {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(191, 90, 242, 0.15);
+    border: 1px solid var(--neon-purple);
+    color: var(--neon-purple);
+}
+
+.patch-card__category {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.patch-card__title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.patch-card__excerpt {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.btn-quest {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--neon-purple);
+    background: rgba(191, 90, 242, 0.08);
+    color: var(--neon-purple);
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.btn-quest:hover {
+    background: rgba(191, 90, 242, 0.2);
+    box-shadow: 0 0 12px rgba(191, 90, 242, 0.4);
+}
+
+/* ===== ABOUT / CHARACTER BIO SECTION ===== */
+.about-section {
+    background: var(--bg-primary);
+}
+
+.about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .about-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.char-bio {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 32px;
+}
+
+.char-bio__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--neon-green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+
+.char-bio__text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.char-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.char-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.char-stat__label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    width: 100px;
+    text-transform: uppercase;
+}
+
+.char-stat__bar {
+    flex: 1;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.char-stat__fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease;
+}
+
+.char-stat__fill--speed {
+    background: linear-gradient(90deg, var(--electric-blue), var(--neon-green));
+    box-shadow: 0 0 6px rgba(0, 212, 255, 0.4);
+}
+
+.char-stat__fill--intel {
+    background: linear-gradient(90deg, var(--neon-purple), var(--electric-blue));
+    box-shadow: 0 0 6px rgba(191, 90, 242, 0.4);
+}
+
+.char-stat__fill--privacy {
+    background: linear-gradient(90deg, var(--neon-green), var(--gold));
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+}
+
+.char-stat__fill--agility {
+    background: linear-gradient(90deg, var(--hot-pink), var(--neon-purple));
+    box-shadow: 0 0 6px rgba(255, 0, 110, 0.4);
+}
+
+.quests-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 32px;
+}
+
+.quests-panel__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.quest-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.quest-item:last-child {
+    border-bottom: none;
+}
+
+.quest-item__check {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 2px solid var(--neon-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--neon-green);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.quest-item__check--done {
+    background: rgba(0, 255, 136, 0.15);
+}
+
+.quest-item__text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.quest-item__text strong {
+    color: var(--text-primary);
+}
+
+.achievements-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+}
+
+.achievement-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+.achievement-badge:hover {
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+    transform: scale(1.1);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 60px 20px 30px;
+}
+
+.footer__content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer__col-title {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--neon-green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+
+.footer__trophies {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.footer__trophy {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.footer__social-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.footer__social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--electric-blue);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.footer__social-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    box-shadow: var(--glow-blue);
+    transform: scale(1.1);
+}
+
+.footer__newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer__newsletter-input {
+    display: flex;
+    gap: 8px;
+}
+
+.footer__newsletter-input input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+.footer__newsletter-input input:focus {
+    border-color: var(--neon-green);
+    box-shadow: var(--glow-green);
+}
+
+.footer__newsletter-input button {
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--neon-green);
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--neon-green);
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+}
+
+.footer__newsletter-input button:hover {
+    background: rgba(0, 255, 136, 0.25);
+    box-shadow: var(--glow-green);
+}
+
+.footer__bottom {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.footer__copyright {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.footer__gg {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--neon-green);
+    opacity: 0.4;
+    cursor: default;
+    transition: var(--transition);
+}
+
+.footer__gg:hover {
+    opacity: 1;
+    text-shadow: var(--glow-green);
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .hero__headline {
+        font-size: 1.8rem;
+    }
+    .hero__mascot {
+        width: 140px;
+        height: 140px;
+    }
+    .games-layout {
+        grid-template-columns: 1fr;
+    }
+    .game-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-layout {
+        grid-template-columns: 1fr;
+    }
+    .footer__content {
+        grid-template-columns: 1fr;
+    }
+    .footer__bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .particle {
+        display: none;
+    }
+
+    .hero-mascot__svg {
+        animation: none;
+    }
+
+    .typing-text::after {
+        animation: none;
+    }
+
+    .xp-bar__fill::after {
+        animation: none;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION HUD ===== -->
+    <nav class="nav-hud">
+        <a href="#" class="nav-hud__logo">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="18" fill="rgba(0,255,136,0.1)" stroke="var(--neon-green)" stroke-width="2"/>
+                <ellipse cx="14" cy="14" rx="5" ry="6" fill="var(--neon-green)" opacity="0.8"/>
+                <ellipse cx="26" cy="14" rx="5" ry="6" fill="var(--neon-green)" opacity="0.8"/>
+                <circle cx="20" cy="22" r="9" fill="var(--neon-green)" opacity="0.9"/>
+                <circle cx="17" cy="20" r="2" fill="#0a0015"/>
+                <circle cx="23" cy="20" r="2" fill="#0a0015"/>
+                <ellipse cx="20" cy="24" rx="2" ry="1.5" fill="#0a0015"/>
+                <path d="M14 26 Q20 30 26 26" stroke="#0a0015" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span>Squicky</span>
+        </a>
+        <div class="nav-hud__links" id="navLinks">
+            <a href="#tools" class="active">Power-Ups</a>
+            <a href="#games">Arcade</a>
+            <a href="#blog">Patch Notes</a>
+            <a href="#about">Bio</a>
+        </div>
+        <div class="nav-hud__actions">
+            <div class="nav-bell" aria-label="Notifications">
+                &#128276;
+                <div class="nav-bell__dot"></div>
+            </div>
+            <div class="power-switch" id="themeToggle" role="button" aria-label="Toggle dark/light mode" tabindex="0"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero">
+        <div class="hero__particles" id="particles"></div>
+        <div class="hero__content">
+            <div class="hero__mascot">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Gaming Squirrel Mascot -->
+                    <!-- Headphone band -->
+                    <path d="M55 75 Q100 40 145 75" stroke="var(--electric-blue)" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    <!-- Left ear cup -->
+                    <rect x="42" y="65" width="22" height="30" rx="8" fill="var(--electric-blue)" opacity="0.9"/>
+                    <rect x="46" y="70" width="14" height="20" rx="5" fill="#0a0015" opacity="0.5"/>
+                    <!-- Right ear cup -->
+                    <rect x="136" y="65" width="22" height="30" rx="8" fill="var(--electric-blue)" opacity="0.9"/>
+                    <rect x="140" y="70" width="14" height="20" rx="5" fill="#0a0015" opacity="0.5"/>
+                    <!-- Left ear -->
+                    <ellipse cx="65" cy="55" rx="14" ry="20" fill="var(--neon-green)" opacity="0.85"/>
+                    <ellipse cx="65" cy="55" rx="8" ry="12" fill="rgba(0,255,136,0.4)"/>
+                    <!-- Right ear -->
+                    <ellipse cx="135" cy="55" rx="14" ry="20" fill="var(--neon-green)" opacity="0.85"/>
+                    <ellipse cx="135" cy="55" rx="8" ry="12" fill="rgba(0,255,136,0.4)"/>
+                    <!-- Head -->
+                    <circle cx="100" cy="95" r="38" fill="var(--neon-green)"/>
+                    <!-- Face lighter area -->
+                    <circle cx="100" cy="100" r="28" fill="rgba(57,255,20,0.3)"/>
+                    <!-- Eyes -->
+                    <circle cx="88" cy="90" r="8" fill="#0a0015"/>
+                    <circle cx="112" cy="90" r="8" fill="#0a0015"/>
+                    <circle cx="90" cy="87" r="3" fill="#ffffff"/>
+                    <circle cx="114" cy="87" r="3" fill="#ffffff"/>
+                    <!-- Nose -->
+                    <ellipse cx="100" cy="100" rx="4" ry="3" fill="#0a0015"/>
+                    <!-- Smile -->
+                    <path d="M88 108 Q100 118 112 108" stroke="#0a0015" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <!-- Cheeks glow -->
+                    <circle cx="78" cy="102" r="5" fill="rgba(255,0,110,0.3)"/>
+                    <circle cx="122" cy="102" r="5" fill="rgba(255,0,110,0.3)"/>
+                    <!-- Body -->
+                    <ellipse cx="100" cy="155" rx="30" ry="28" fill="var(--neon-green)" opacity="0.9"/>
+                    <!-- Controller in hands -->
+                    <rect x="72" y="148" width="56" height="24" rx="12" fill="var(--bg-secondary)" stroke="var(--electric-blue)" stroke-width="2"/>
+                    <!-- Controller buttons -->
+                    <circle cx="85" cy="158" r="3" fill="var(--hot-pink)"/>
+                    <circle cx="93" cy="155" r="2" fill="var(--neon-green)"/>
+                    <circle cx="107" cy="155" r="2" fill="var(--electric-blue)"/>
+                    <circle cx="115" cy="158" r="3" fill="var(--gold)"/>
+                    <!-- D-pad -->
+                    <rect x="80" y="163" width="8" height="3" rx="1" fill="var(--text-muted)"/>
+                    <rect x="82.5" y="160.5" width="3" height="8" rx="1" fill="var(--text-muted)"/>
+                    <!-- Tail -->
+                    <path d="M130 150 Q160 130 155 100 Q150 80 160 65" stroke="var(--neon-green)" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.8"/>
+                    <!-- Arms -->
+                    <path d="M70 145 Q65 150 72 155" stroke="var(--neon-green)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    <path d="M130 145 Q135 150 128 155" stroke="var(--neon-green)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    <!-- Mic on headset -->
+                    <path d="M52 88 Q45 95 48 105" stroke="var(--electric-blue)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <circle cx="48" cy="107" r="4" fill="var(--electric-blue)"/>
+                </svg>
+            </div>
+            <h1 class="hero__headline">
+                <span class="accent">Level Up</span> Your Web Experience
+            </h1>
+            <p class="hero__subtitle">
+                <span class="hero__typing" id="typingText"></span>
+            </p>
+            <div class="xp-bar">
+                <div class="xp-bar__fill"></div>
+            </div>
+            <p class="xp-bar__label">LEVEL 7 &mdash; 7,200 / 10,000 XP</p>
+            <div class="hero__ctas">
+                <a href="#tools" class="btn-neon">Explore Power-Ups</a>
+                <a href="#games" class="btn-neon btn-neon--pink">Enter Arcade</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TOOLS / POWER-UPS SECTION ===== -->
+    <section class="section tools-section" id="tools">
+        <div class="container">
+            <div class="section__header reveal">
+                <h2 class="section__title">Select Your <span class="glow">Power-Up</span></h2>
+                <p class="section__subtitle">Each tool is a unique ability in your web arsenal. Activate them to unlock their full potential.</p>
+            </div>
+            <div class="tools-grid">
+                <!-- Squicky Player -->
+                <div class="power-card reveal">
+                    <div class="power-card__level">Level MAX</div>
+                    <div class="power-card__icon">&#127916;</div>
+                    <h3 class="power-card__name">Media Power</h3>
+                    <p class="power-card__desc">Squicky Player: Privacy-first media player supporting 14+ formats with 4K playback. Zero tracking, maximum performance.</p>
+                    <div class="stat-bars">
+                        <div class="stat-bar">
+                            <span class="stat-bar__label">Formats</span>
+                            <div class="stat-bar__track"><div class="stat-bar__fill" style="width:100%"></div></div>
+                            <span class="stat-bar__value">MAX</span>
+                        </div>
+                        <div class="stat-bar">
+                            <span class="stat-bar__label">Quality</span>
+                            <div class="stat-bar__track"><div class="stat-bar__fill" style="width:100%"></div></div>
+                            <span class="stat-bar__value">4K</span>
+                        </div>
+                        <div class="stat-bar">
+                            <span class="stat-bar__label">Privacy</span>
+                            <div class="stat-bar__track"><div class="stat-bar__fill" style="width:100%"></div></div>
+                            <span class="stat-bar__value">100%</span>
+                        </div>
+                    </div>
+                    <a href="https://player.squicky.in" class="btn-activate">&#9889; Activate</a>
+                </div>
+                <!-- Squicky PDF -->
+                <div class="power-card reveal">
+                    <div class="power-card__level">Level MAX</div>
+                    <div class="power-card__icon">&#128196;</div>
+                    <h3 class="power-card__name">Document Power</h3>
+                    <p class="power-card__desc">Squicky PDF: 9 browser-based PDF tools. Merge, split, compress, convert - all without server uploads. Your files never leave your device.</p>
+                    <div class="stat-bars">
+                        <div class="stat-bar">
+                            <span class="stat-bar__label">Tools</span>
+                            <div class="stat-bar__track"><div class="stat-bar__fill" style="width:90%"></div></div>
+                            <span class="stat-bar__value">9</span>
+                        </div>
+                        <div class="stat-bar">
+                            <span class="stat-bar__label">Speed</span>
+                            <div class="stat-bar__track"><div class="stat-bar__fill" style="width:95%"></div></div>
+                            <span class="stat-bar__value">95%</span>
+                        </div>
+                        <div class="stat-bar">
+                            <span class="stat-bar__label">Privacy</span>
+                            <div class="stat-bar__track"><div class="stat-bar__fill" style="width:100%"></div></div>
+                            <span class="stat-bar__value">100%</span>
+                        </div>
+                    </div>
+                    <a href="https://pdf.squicky.in" class="btn-activate">&#9889; Activate</a>
+                </div>
+                <!-- Locked: Squicky Image -->
+                <div class="power-card power-card--locked reveal">
+                    <div class="power-card__level">Locked</div>
+                    <div class="lock-overlay">
+                        <div class="lock-overlay__icon">&#128274;</div>
+                        <h3 class="power-card__name">Image Power</h3>
+                        <p class="lock-overlay__text">Unlock at Level 3</p>
+                        <p class="power-card__desc">Squicky Image: Browser-based image editing, compression, and format conversion.</p>
+                    </div>
+                </div>
+                <!-- Locked: Squicky Code -->
+                <div class="power-card power-card--locked reveal">
+                    <div class="power-card__level">Locked</div>
+                    <div class="lock-overlay">
+                        <div class="lock-overlay__icon">&#128274;</div>
+                        <h3 class="power-card__name">Code Power</h3>
+                        <p class="lock-overlay__text">Unlock at Level 3</p>
+                        <p class="power-card__desc">Squicky Code: Lightning-fast code snippets, formatters, and developer utilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GAMES / ARCADE SECTION ===== -->
+    <section class="section games-section" id="games">
+        <div class="container">
+            <div class="section__header reveal">
+                <h2 class="section__title">The <span class="glow">Arcade</span><span class="badge-new">NEW!</span></h2>
+                <p class="section__subtitle">Take a break and challenge yourself. Casual games designed for quick fun between tasks.</p>
+            </div>
+            <div class="games-layout">
+                <div class="games-grid">
+                    <!-- Game 1 -->
+                    <div class="game-card reveal">
+                        <div class="game-card__badge">Coming Soon</div>
+                        <div class="game-card__icon">&#127939;</div>
+                        <div class="game-card__info">
+                            <div class="game-card__genre">Action</div>
+                            <h3 class="game-card__name">Squicky Run</h3>
+                            <p class="game-card__desc">Endless runner through a digital forest. Dodge firewalls, collect data packets, and outrun the trackers!</p>
+                        </div>
+                    </div>
+                    <!-- Game 2 -->
+                    <div class="game-card reveal">
+                        <div class="game-card__badge">Coming Soon</div>
+                        <div class="game-card__icon">&#129513;</div>
+                        <div class="game-card__info">
+                            <div class="game-card__genre">Puzzle</div>
+                            <h3 class="game-card__name">Squicky Puzzle</h3>
+                            <p class="game-card__desc">Brain-bending logic puzzles with increasing difficulty. Train your mind while having fun!</p>
+                        </div>
+                    </div>
+                    <!-- Game 3 -->
+                    <div class="game-card reveal">
+                        <div class="game-card__badge">Coming Soon</div>
+                        <div class="game-card__icon">&#10067;</div>
+                        <div class="game-card__info">
+                            <div class="game-card__genre">Trivia</div>
+                            <h3 class="game-card__name">Squicky Quiz</h3>
+                            <p class="game-card__desc">Test your tech knowledge! Questions about web standards, privacy, and digital culture.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Leaderboard -->
+                <div class="leaderboard reveal">
+                    <div class="leaderboard__title">&#127942; Top Players</div>
+                    <div class="leaderboard__item">
+                        <span class="leaderboard__rank">#1</span>
+                        <span class="leaderboard__name">PixelSquirrel</span>
+                        <span class="leaderboard__score">9,450</span>
+                    </div>
+                    <div class="leaderboard__item">
+                        <span class="leaderboard__rank">#2</span>
+                        <span class="leaderboard__name">NeonRunner</span>
+                        <span class="leaderboard__score">8,320</span>
+                    </div>
+                    <div class="leaderboard__item">
+                        <span class="leaderboard__rank">#3</span>
+                        <span class="leaderboard__name">DataDasher</span>
+                        <span class="leaderboard__score">7,890</span>
+                    </div>
+                    <div class="leaderboard__item">
+                        <span class="leaderboard__rank">#4</span>
+                        <span class="leaderboard__name">CryptoNut</span>
+                        <span class="leaderboard__score">6,540</span>
+                    </div>
+                    <div class="leaderboard__item">
+                        <span class="leaderboard__rank">#5</span>
+                        <span class="leaderboard__name">FirewallFox</span>
+                        <span class="leaderboard__score">5,120</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BLOG / PATCH NOTES SECTION ===== -->
+    <section class="section blog-section" id="blog">
+        <div class="container">
+            <div class="section__header reveal">
+                <h2 class="section__title"><span class="glow">Patch</span> Notes</h2>
+                <p class="section__subtitle">Latest updates, feature drops, and behind-the-scenes from the Squicky development team.</p>
+            </div>
+            <div class="blog-grid">
+                <!-- Post 1 -->
+                <div class="patch-card reveal">
+                    <div class="patch-card__header">
+                        <span class="patch-card__version">v1.2</span>
+                        <span class="patch-card__category">&#127916; Player</span>
+                    </div>
+                    <h3 class="patch-card__title">Squicky Player Now Supports 4K HDR Streaming</h3>
+                    <p class="patch-card__excerpt">Major buff to Media Power! HDR10 and Dolby Vision support added with zero-latency adaptive streaming. Your eyes will thank you.</p>
+                    <a href="#" class="btn-quest">&#9876; Accept Quest</a>
+                </div>
+                <!-- Post 2 -->
+                <div class="patch-card reveal">
+                    <div class="patch-card__header">
+                        <span class="patch-card__version">v1.1</span>
+                        <span class="patch-card__category">&#128196; PDF</span>
+                    </div>
+                    <h3 class="patch-card__title">New PDF Compression Algorithm Drops File Sizes by 70%</h3>
+                    <p class="patch-card__excerpt">Document Power gets a massive upgrade. Our new compression engine reduces PDF sizes while maintaining crystal-clear quality.</p>
+                    <a href="#" class="btn-quest">&#9876; Accept Quest</a>
+                </div>
+                <!-- Post 3 -->
+                <div class="patch-card reveal">
+                    <div class="patch-card__header">
+                        <span class="patch-card__version">v1.0</span>
+                        <span class="patch-card__category">&#127918; Arcade</span>
+                    </div>
+                    <h3 class="patch-card__title">Arcade Mode Announced: Games Are Coming to Squicky</h3>
+                    <p class="patch-card__excerpt">Side quest unlocked! Three browser-based games are in development. Compete on the leaderboard and earn exclusive achievement badges.</p>
+                    <a href="#" class="btn-quest">&#9876; Accept Quest</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT / CHARACTER BIO SECTION ===== -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <div class="section__header reveal">
+                <h2 class="section__title">Character <span class="glow">Bio</span></h2>
+                <p class="section__subtitle">Every hero has an origin story. Meet the squirrel behind the tools.</p>
+            </div>
+            <div class="about-layout">
+                <div class="char-bio reveal">
+                    <h3 class="char-bio__title">&#128054; Origin Story</h3>
+                    <p class="char-bio__text">
+                        Born in the neon-lit forests of the digital realm, Squicky was no ordinary squirrel. While others hoarded acorns, Squicky collected something far more valuable: knowledge of privacy, performance, and open-source tools. After witnessing countless users lose their data to greedy trackers, Squicky embarked on a quest to build a sanctuary of free, private web tools that anyone can use without fear.
+                    </p>
+                    <h4 class="char-bio__title" style="font-size:0.85rem; margin-top:20px;">&#128200; Attributes</h4>
+                    <div class="char-stats">
+                        <div class="char-stat">
+                            <span class="char-stat__label">Speed</span>
+                            <div class="char-stat__bar"><div class="char-stat__fill char-stat__fill--speed" style="width:95%"></div></div>
+                        </div>
+                        <div class="char-stat">
+                            <span class="char-stat__label">Intelligence</span>
+                            <div class="char-stat__bar"><div class="char-stat__fill char-stat__fill--intel" style="width:92%"></div></div>
+                        </div>
+                        <div class="char-stat">
+                            <span class="char-stat__label">Privacy</span>
+                            <div class="char-stat__bar"><div class="char-stat__fill char-stat__fill--privacy" style="width:100%"></div></div>
+                        </div>
+                        <div class="char-stat">
+                            <span class="char-stat__label">Agility</span>
+                            <div class="char-stat__bar"><div class="char-stat__fill char-stat__fill--agility" style="width:88%"></div></div>
+                        </div>
+                    </div>
+                    <div class="achievements-row">
+                        <div class="achievement-badge" title="Privacy Guardian">&#128737;</div>
+                        <div class="achievement-badge" title="Speed Demon">&#9889;</div>
+                        <div class="achievement-badge" title="Open Source Hero">&#128153;</div>
+                        <div class="achievement-badge" title="Format Master">&#127916;</div>
+                        <div class="achievement-badge" title="Zero Tracking">&#128065;</div>
+                    </div>
+                </div>
+                <div class="quests-panel reveal">
+                    <h3 class="quests-panel__title">&#9876; Active Quests</h3>
+                    <div class="quest-item">
+                        <div class="quest-item__check quest-item__check--done">&#10003;</div>
+                        <div class="quest-item__text"><strong>Build a privacy-first media player</strong> that supports every format without tracking users.</div>
+                    </div>
+                    <div class="quest-item">
+                        <div class="quest-item__check quest-item__check--done">&#10003;</div>
+                        <div class="quest-item__text"><strong>Create browser-based PDF tools</strong> that never upload files to external servers.</div>
+                    </div>
+                    <div class="quest-item">
+                        <div class="quest-item__check">&#8226;</div>
+                        <div class="quest-item__text"><strong>Launch the Squicky Arcade</strong> with casual games for web enthusiasts.</div>
+                    </div>
+                    <div class="quest-item">
+                        <div class="quest-item__check">&#8226;</div>
+                        <div class="quest-item__text"><strong>Expand the toolkit</strong> with image editing and code utility powers.</div>
+                    </div>
+                    <div class="quest-item">
+                        <div class="quest-item__check">&#8226;</div>
+                        <div class="quest-item__text"><strong>Reach 10,000 daily active users</strong> across all Squicky tools.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div>
+                <h4 class="footer__col-title">&#127942; Achievements</h4>
+                <div class="footer__trophies">
+                    <div class="footer__trophy">&#127941;</div>
+                    <div class="footer__trophy">&#11088;</div>
+                    <div class="footer__trophy">&#128142;</div>
+                    <div class="footer__trophy">&#127775;</div>
+                    <div class="footer__trophy">&#128293;</div>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer__col-title">&#127918; Social Guild</h4>
+                <div class="footer__social-links">
+                    <a href="#" class="footer__social-btn" aria-label="Twitter">&#120143;</a>
+                    <a href="#" class="footer__social-btn" aria-label="Discord">&#128172;</a>
+                    <a href="#" class="footer__social-btn" aria-label="GitHub">&#128187;</a>
+                    <a href="#" class="footer__social-btn" aria-label="Reddit">&#128640;</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer__col-title">&#9878; Join the Guild</h4>
+                <div class="footer__newsletter">
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:4px;">Get patch notes and exclusive updates</p>
+                    <div class="footer__newsletter-input">
+                        <input type="email" placeholder="your@email.com" aria-label="Email for newsletter">
+                        <button type="button">Join</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <span class="footer__copyright">&gt; squicky.in &copy; 2025 // all_rights_reserved</span>
+            <span class="footer__gg">GG</span>
+        </div>
+    </footer>
+
+    <script>
+    // ===== THEME TOGGLE =====
+    (function() {
+        const toggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const stored = localStorage.getItem('squicky-theme');
+        if (stored) {
+            html.setAttribute('data-theme', stored);
+        }
+        toggle.addEventListener('click', function() {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('squicky-theme', next);
+        });
+        toggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggle.click();
+            }
+        });
+    })();
+
+    // ===== MOBILE MENU =====
+    (function() {
+        const btn = document.getElementById('mobileMenuBtn');
+        const links = document.getElementById('navLinks');
+        btn.addEventListener('click', function() {
+            links.classList.toggle('open');
+        });
+        // Close on link click
+        links.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', function() {
+                links.classList.remove('open');
+            });
+        });
+    })();
+
+    // ===== PARTICLES =====
+    (function() {
+        const container = document.getElementById('particles');
+        const colors = ['var(--neon-green)', 'var(--electric-blue)', 'var(--hot-pink)', 'var(--neon-purple)'];
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const size = 2 + Math.random() * 4;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (6 + Math.random() * 10) + 's';
+            p.style.animationDelay = (Math.random() * 8) + 's';
+            p.style.background = colors[Math.floor(Math.random() * colors.length)];
+            p.style.boxShadow = '0 0 ' + (size * 2) + 'px currentColor';
+            container.appendChild(p);
+        }
+    })();
+
+    // ===== TYPING ANIMATION =====
+    (function() {
+        const el = document.getElementById('typingText');
+        const phrases = [
+            'Free privacy-first tools for everyone.',
+            'No tracking. No uploads. No compromises.',
+            'Your files stay on your device. Always.',
+            'Play games. Edit PDFs. Stream media. All free.'
+        ];
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let deleting = false;
+        let pauseTime = 0;
+
+        function tick() {
+            const current = phrases[phraseIdx];
+            if (!deleting) {
+                el.textContent = current.substring(0, charIdx + 1);
+                charIdx++;
+                if (charIdx >= current.length) {
+                    deleting = true;
+                    pauseTime = 2000;
+                } else {
+                    pauseTime = 45 + Math.random() * 30;
+                }
+            } else {
+                el.textContent = current.substring(0, charIdx - 1);
+                charIdx--;
+                if (charIdx <= 0) {
+                    deleting = false;
+                    phraseIdx = (phraseIdx + 1) % phrases.length;
+                    pauseTime = 400;
+                } else {
+                    pauseTime = 25;
+                }
+            }
+            setTimeout(tick, pauseTime);
+        }
+        tick();
+    })();
+
+    // ===== SCROLL REVEAL =====
+    (function() {
+        const reveals = document.querySelectorAll('.reveal');
+        function check() {
+            const windowH = window.innerHeight;
+            reveals.forEach(function(el) {
+                const top = el.getBoundingClientRect().top;
+                if (top < windowH - 80) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', check);
+        window.addEventListener('resize', check);
+        check();
+    })();
+
+    // ===== NAV ACTIVE STATE =====
+    (function() {
+        const sections = document.querySelectorAll('.section, .hero');
+        const navLinks = document.querySelectorAll('.nav-hud__links a');
+        window.addEventListener('scroll', function() {
+            let current = '';
+            sections.forEach(function(s) {
+                const top = s.offsetTop - 120;
+                if (window.scrollY >= top) {
+                    current = s.getAttribute('id');
+                }
+            });
+            navLinks.forEach(function(a) {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+    })();
+    </script>
+</body>
+</html>
+
+
