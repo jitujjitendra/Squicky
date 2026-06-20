@@ -370,23 +370,12 @@
         }
 
         .logo-img {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
-            transition: transform var(--transition-fast), filter var(--transition-fast);
-            border-radius: 10px;
-        }
-
-        /* Dark / Neon themes: logo dark so brighten it */
-        [data-theme="dark"] .logo-img,
-        [data-theme="neon"] .logo-img {
-            filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.3));
-        }
-
-        /* Light theme: logo shows natural colours */
-        [data-theme="light"] .logo-img {
-            filter: none;
-            drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+            transition: transform var(--transition-fast);
+            border-radius: 8px;
+            display: block;
         }
 
         .logo-link:hover .logo-img {
@@ -571,7 +560,7 @@
         }
 
         .player-wrapper {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
             position: relative;
         }
@@ -714,11 +703,11 @@
             margin-right: 42px; /* offset the dots */
         }
 
-        /* Video Area — Cinematic 21:9 */
+        /* Video Area — Cinematic, height scales with viewport so whole player fits */
         .player-video-area {
             position: relative;
             width: 100%;
-            padding-top: 42.85%;   /* 21:9 cinematic */
+            height: clamp(220px, 38vh, 400px);
             background: #050510;
             overflow: hidden;
             cursor: pointer;
@@ -1950,9 +1939,9 @@
                 padding: 60px 0;
             }
 
-            /* Mobile: revert to 16:9 for small screens */
+            /* Mobile: taller video for small screens */
             .player-video-area {
-                padding-top: 56.25%;
+                height: clamp(180px, 30vh, 260px);
             }
 
             .player-container {
