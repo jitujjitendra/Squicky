@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squicky - Web Tools & Games Hub</title>
+    <meta name="description" content="Squicky.in - Premium web tools and games hub. Fast, private, powerful. No bloat, no tracking.">
+    <meta name="keywords" content="web tools, online games, media player, PDF tools, privacy-first">
+    <meta property="og:title" content="Squicky - Web Tools & Games Hub">
+    <meta property="og:description" content="Premium web tools and games. Fast, private, powerful.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://squicky.in">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           RESET & BASE VARIABLES
+           ============================================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition-fast: 0.2s ease;
+            --transition-med: 0.4s ease;
+            --transition-slow: 0.8s ease;
+            --max-width: 1200px;
+            --header-height: 72px;
+        }
+
+        /* ============================================================
+           DARK THEME (Default)
+           ============================================================ */
+        [data-theme="dark"] {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #111128;
+            --bg-tertiary: #1a1a3e;
+            --bg-card: rgba(20, 20, 50, 0.6);
+            --bg-card-hover: rgba(30, 30, 70, 0.8);
+            --border-color: rgba(99, 102, 241, 0.15);
+            --border-hover: rgba(99, 102, 241, 0.4);
+            --text-primary: #f0f0ff;
+            --text-secondary: #a0a0cc;
+            --text-muted: #6b6b99;
+            --accent-primary: #6366f1;
+            --accent-secondary: #06b6d4;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #06b6d4);
+            --glow-color: rgba(99, 102, 241, 0.3);
+            --glow-secondary: rgba(6, 182, 212, 0.2);
+            --header-bg: rgba(10, 10, 26, 0.85);
+            --orb-opacity: 0.4;
+            --particle-opacity: 0.6;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-card-hover: 0 16px 48px rgba(99, 102, 241, 0.2);
+        }
+
+        /* ============================================================
+           NEON THEME
+           ============================================================ */
+        [data-theme="neon"] {
+            --bg-primary: #0d0221;
+            --bg-secondary: #150533;
+            --bg-tertiary: #1a0845;
+            --bg-card: rgba(25, 5, 60, 0.7);
+            --bg-card-hover: rgba(40, 10, 80, 0.85);
+            --border-color: rgba(0, 255, 170, 0.2);
+            --border-hover: rgba(0, 255, 170, 0.6);
+            --text-primary: #f0fff8;
+            --text-secondary: #a0ffd4;
+            --text-muted: #5fa88a;
+            --accent-primary: #00ffaa;
+            --accent-secondary: #ff006e;
+            --accent-gradient: linear-gradient(135deg, #00ffaa, #00d4ff);
+            --glow-color: rgba(0, 255, 170, 0.4);
+            --glow-secondary: rgba(255, 0, 110, 0.3);
+            --header-bg: rgba(13, 2, 33, 0.9);
+            --orb-opacity: 0.7;
+            --particle-opacity: 0.9;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-card-hover: 0 16px 48px rgba(0, 255, 170, 0.25);
+        }
+
+        /* ============================================================
+           LIGHT THEME
+           ============================================================ */
+        [data-theme="light"] {
+            --bg-primary: #f8f9fc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #eef0f7;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card-hover: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(99, 102, 241, 0.12);
+            --border-hover: rgba(99, 102, 241, 0.3);
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8888aa;
+            --accent-primary: #4f46e5;
+            --accent-secondary: #0891b2;
+            --accent-gradient: linear-gradient(135deg, #4f46e5, #0891b2);
+            --glow-color: rgba(79, 70, 229, 0.15);
+            --glow-secondary: rgba(8, 145, 178, 0.1);
+            --header-bg: rgba(248, 249, 252, 0.92);
+            --orb-opacity: 0.12;
+            --particle-opacity: 0.2;
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --shadow-card-hover: 0 12px 40px rgba(79, 70, 229, 0.12);
+        }
+
+        /* ============================================================
+           BASE STYLES
+           ============================================================ */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background var(--transition-med), color var(--transition-med);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--accent-secondary);
+        }
+
+        button {
+            font-family: var(--font-body);
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           ANIMATED BACKGROUND - ORBS
+           ============================================================ */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: var(--orb-opacity);
+            animation: orbFloat 20s ease-in-out infinite;
+            transition: opacity var(--transition-slow);
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-primary);
+            top: -10%;
+            left: -5%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-secondary);
+            top: 40%;
+            right: -10%;
+            animation-delay: -7s;
+            animation-duration: 25s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--accent-primary);
+            bottom: -5%;
+            left: 30%;
+            animation-delay: -14s;
+            animation-duration: 22s;
+        }
+
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-secondary);
+            top: 20%;
+            left: 50%;
+            animation-delay: -3s;
+            animation-duration: 28s;
+            opacity: calc(var(--orb-opacity) * 0.5);
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -40px) scale(1.05);
+            }
+            50% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+            75% {
+                transform: translate(15px, 30px) scale(1.02);
+            }
+        }
+
+        /* Grid Overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.5;
+        }
+
+        [data-theme="neon"] .grid-overlay {
+            background-image:
+                linear-gradient(rgba(0, 255, 170, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 170, 0.05) 1px, transparent 1px);
+            opacity: 0.8;
+        }
+
+        [data-theme="light"] .grid-overlay {
+            background-image:
+                linear-gradient(rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79, 70, 229, 0.03) 1px, transparent 1px);
+            opacity: 0.3;
+        }
+
+        /* Particles */
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleRise linear infinite;
+        }
+
+        [data-theme="neon"] .particle {
+            box-shadow: 0 0 6px var(--accent-primary);
+        }
+
+        @keyframes particleRise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: var(--particle-opacity);
+            }
+            90% {
+                opacity: var(--particle-opacity);
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: background var(--transition-med),
+                        border-color var(--transition-med),
+                        box-shadow var(--transition-med);
+        }
+
+        .header.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-svg {
+            width: 42px;
+            height: 42px;
+            transition: transform var(--transition-fast);
+        }
+
+        .logo-link:hover .logo-svg {
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        /* Desktop Navigation */
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-desktop a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-desktop a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-desktop a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width var(--transition-fast);
+            border-radius: 2px;
+        }
+
+        .nav-desktop a:hover::after {
+            width: 100%;
+        }
+
+        /* Header Actions */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-switcher {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 4px;
+            transition: border-color var(--transition-fast);
+        }
+
+        .theme-switcher:hover {
+            border-color: var(--border-hover);
+        }
+
+        .theme-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-btn.active {
+            background: var(--accent-primary);
+            color: #fff;
+            box-shadow: 0 2px 8px var(--glow-color);
+        }
+
+        .theme-btn:hover:not(.active) {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            transition: background var(--transition-fast);
+        }
+
+        .hamburger:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all var(--transition-fast);
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 999;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: transform var(--transition-med), opacity var(--transition-med);
+        }
+
+        .mobile-nav.open {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-nav a {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 12px 16px;
+            display: block;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .mobile-nav a:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        /* ============================================================
+           HERO / PLAYER SECTION
+           ============================================================ */
+        .hero-section {
+            padding-top: calc(var(--header-height) + 60px);
+            padding-bottom: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .player-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .player-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 40px var(--glow-color);
+            transition: box-shadow var(--transition-med),
+                        border-color var(--transition-med);
+        }
+
+        .player-container:hover {
+            border-color: var(--border-hover);
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                0 0 60px var(--glow-color);
+        }
+
+        .player-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+        }
+
+        .player-poster-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 30%, var(--bg-primary) 100%);
+            opacity: 0.5;
+        }
+
+        .player-mesh {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+        }
+
+        .play-button {
+            position: relative;
+            z-index: 2;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            box-shadow: 0 8px 30px var(--glow-color);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px var(--glow-color);
+        }
+
+        .play-button:active {
+            transform: scale(0.95);
+        }
+
+        .play-button svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+            margin-left: 4px;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 3;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px var(--glow-color);
+        }
+
+        .player-duration {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            z-index: 3;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+        }
+
+        .player-title-overlay {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            z-index: 3;
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-tagline {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .hero-tagline strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           BRAND STATEMENT SECTION
+           ============================================================ */
+        .brand-section {
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .brand-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 28px 20px;
+            text-align: center;
+            transition: all var(--transition-med);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           SECTION HEADERS
+           ============================================================ */
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           TOOLS SECTION
+           ============================================================ */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            transition: all var(--transition-med);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity var(--transition-med);
+        }
+
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity var(--transition-med);
+            pointer-events: none;
+        }
+
+        .tool-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-card:hover::after {
+            opacity: 0.15;
+        }
+
+        .tool-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 12px var(--glow-color);
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .tool-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .tool-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap var(--transition-fast), color var(--transition-fast);
+        }
+
+        .tool-link:hover {
+            gap: 10px;
+            color: var(--accent-secondary);
+        }
+
+        .tool-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .tool-badge.live {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .tool-badge.soon {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.2);
+        }
+
+        /* ============================================================
+           GAMES SECTION
+           ============================================================ */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-med);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .game-thumb {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--glow-color) 0%, transparent 50%);
+            opacity: 0.3;
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity var(--transition-med);
+            backdrop-filter: blur(4px);
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        .game-overlay-text {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+            background: var(--accent-gradient);
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px var(--glow-color);
+        }
+
+        .game-info {
+            padding: 20px 24px;
+        }
+
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .game-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            z-index: 2;
+        }
+
+        /* ============================================================
+           BLOG SECTION
+           ============================================================ */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-med);
+            backdrop-filter: blur(10px);
+        }
+
+        .blog-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .blog-thumb {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--glow-color), var(--glow-secondary));
+            opacity: 0.4;
+        }
+
+        .blog-thumb::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, var(--bg-card), transparent);
+        }
+
+        .blog-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: var(--accent-gradient);
+            color: #fff;
+            z-index: 2;
+        }
+
+        .blog-content {
+            padding: 20px 24px;
+        }
+
+        .blog-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+            transition: color var(--transition-fast);
+        }
+
+        .blog-card:hover .blog-title {
+            color: var(--accent-primary);
+        }
+
+        .blog-excerpt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           ABOUT SECTION
+           ============================================================ */
+        .about-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .about-highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .about-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 14px 32px;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: var(--radius-xl);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+            box-shadow: 0 8px 24px var(--glow-color);
+        }
+
+        .about-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px var(--glow-color);
+            color: #fff;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 80px 0 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-top: 16px;
+            max-width: 280px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            transition: color var(--transition-fast), padding-left var(--transition-fast);
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-primary);
+            padding-left: 4px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--accent-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--glow-color);
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .newsletter-btn {
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-gradient);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--glow-color);
+        }
+
+        .newsletter-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-socials a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            transition: all var(--transition-fast);
+        }
+
+        .footer-socials a:hover {
+            background: var(--accent-primary);
+            color: #fff;
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--glow-color);
+        }
+
+        /* ============================================================
+           SCROLL REVEAL ANIMATIONS
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ============================================================
+           RESPONSIVE DESIGN
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+
+            .hero-section {
+                padding-top: calc(var(--header-height) + 32px);
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .player-container {
+                border-radius: var(--radius-md);
+            }
+
+            .brand-title {
+                font-size: 2rem;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-button svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================================
+         ANIMATED BACKGROUND
+         ============================================================ -->
+    <div class="animated-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+        <div class="grid-overlay"></div>
+        <div class="particles-container" id="particles"></div>
+    </div>
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="header" id="mainHeader">
+        <div class="header-inner">
+            <a href="#" class="logo-link">
+                <svg class="logo-svg" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Rounded rectangle border -->
+                    <rect x="1.5" y="1.5" width="39" height="39" rx="10" ry="10"
+                          stroke="currentColor" stroke-width="2" fill="none"
+                          style="color: var(--accent-primary)"/>
+                    <!-- Squirrel ears -->
+                    <path d="M14 11 C12 7, 10 8, 11.5 12"
+                          stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                          fill="none" style="color: var(--text-primary)"/>
+                    <path d="M28 11 C30 7, 32 8, 30.5 12"
+                          stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                          fill="none" style="color: var(--text-primary)"/>
+                    <!-- Squirrel face outline -->
+                    <ellipse cx="21" cy="20" rx="9" ry="8.5"
+                             stroke="currentColor" stroke-width="1.8" fill="none"
+                             style="color: var(--text-primary)"/>
+                    <!-- Eyes -->
+                    <circle cx="17.5" cy="18.5" r="2"
+                            fill="currentColor" style="color: var(--text-primary)"/>
+                    <circle cx="24.5" cy="18.5" r="2"
+                            fill="currentColor" style="color: var(--text-primary)"/>
+                    <!-- Eye highlights -->
+                    <circle cx="18.2" cy="17.8" r="0.7" fill="var(--bg-primary)"/>
+                    <circle cx="25.2" cy="17.8" r="0.7" fill="var(--bg-primary)"/>
+                    <!-- Nose -->
+                    <ellipse cx="21" cy="22.5" rx="1.3" ry="1"
+                             fill="currentColor" style="color: var(--accent-primary)"/>
+                    <!-- Mouth / smile -->
+                    <path d="M19.5 24.5 Q21 26, 22.5 24.5"
+                          stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                          fill="none" style="color: var(--text-primary)"/>
+                    <!-- SQUICKY text at bottom -->
+                    <text x="21" y="37" text-anchor="middle"
+                          font-family="'Space Grotesk', sans-serif"
+                          font-size="5.5" font-weight="700"
+                          fill="currentColor" style="color: var(--text-primary)">SQUICKY</text>
+                </svg>
+                <span class="logo-text">Squicky</span>
+            </a>
+
+            <nav class="nav-desktop">
+                <a href="#tools">Tools</a>
+                <a href="#games">Games</a>
+                <a href="#blog">Blog</a>
+                <a href="#about">About</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="dark" title="Dark Theme" aria-label="Switch to dark theme">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+                        </svg>
+                    </button>
+                    <button class="theme-btn" data-theme="neon" title="Neon Theme" aria-label="Switch to neon theme">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                    </button>
+                    <button class="theme-btn" data-theme="light" title="Light Theme" aria-label="Switch to light theme">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+        <a href="#tools">Tools</a>
+        <a href="#games">Games</a>
+        <a href="#blog">Blog</a>
+        <a href="#about">About</a>
+    </nav>
+
+    <!-- ============================================================
+         HERO / FEATURED PLAYER SECTION
+         ============================================================ -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="player-wrapper reveal">
+                <div class="player-container">
+                    <div class="player-inner">
+                        <div class="player-poster-gradient"></div>
+                        <div class="player-mesh"></div>
+                        <div class="play-button" id="playBtn" role="button" aria-label="Play featured video" tabindex="0">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="5,3 19,12 5,21"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="featured-badge">Featured</span>
+                    <span class="player-title-overlay">Introducing Squicky Player v0.3</span>
+                    <span class="player-duration">2:34</span>
+                </div>
+            </div>
+            <p class="hero-tagline reveal">
+                Watch our latest <strong>featured content</strong> &mdash; product launches, tutorials, and announcements
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         BRAND STATEMENT SECTION
+         ============================================================ -->
+    <section class="brand-section">
+        <div class="container">
+            <h1 class="brand-title reveal">Build. Play. Create.</h1>
+            <p class="brand-subtitle reveal">
+                Premium web tools and games crafted for speed, privacy, and elegance.
+                No bloat. No tracking. Just pure performance.
+            </p>
+            <div class="stats-grid">
+                <div class="stat-card reveal reveal-delay-1">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Web Tools</div>
+                </div>
+                <div class="stat-card reveal reveal-delay-2">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Privacy First</div>
+                </div>
+                <div class="stat-card reveal reveal-delay-3">
+                    <div class="stat-number">&lt;50ms</div>
+                    <div class="stat-label">Load Time</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================
+         TOOLS SECTION
+         ============================================================ -->
+    <section id="tools">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Our Tools</span>
+                <h2 class="section-title">Powerful Web Tools</h2>
+                <p class="section-desc">
+                    Lightweight, blazing-fast tools that respect your privacy and get the job done.
+                    All processing happens in your browser.
+                </p>
+            </div>
+            <div class="tools-grid">
+                <!-- Tool 1: Squicky Player -->
+                <div class="tool-card reveal reveal-delay-1">
+                    <span class="tool-badge live">Live</span>
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
+                            <polygon points="5,3 19,12 5,21"/>
+                        </svg>
+                    </div>
+                    <h3 class="tool-title">Squicky Player</h3>
+                    <p class="tool-desc">
+                        A universal web media player supporting HLS, DASH, MP4, and more.
+                        Lightweight, customizable, and embeddable anywhere with a single script tag.
+                    </p>
+                    <a href="#" class="tool-link">
+                        Launch Player
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Tool 2: Squicky PDF -->
+                <div class="tool-card reveal reveal-delay-2">
+                    <span class="tool-badge live">Live</span>
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8" fill="none" stroke="#fff" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="tool-title">Squicky PDF</h3>
+                    <p class="tool-desc">
+                        Fast, client-side PDF viewer and toolkit. Merge, split, compress, and annotate
+                        PDFs without uploading to any server. Your files never leave your device.
+                    </p>
+                    <a href="#" class="tool-link">
+                        Open PDF Tool
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Tool 3: Squicky Image -->
+                <div class="tool-card reveal reveal-delay-3">
+                    <span class="tool-badge soon">Soon</span>
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                    </div>
+                    <h3 class="tool-title">Squicky Image</h3>
+                    <p class="tool-desc">
+                        Browser-based image editor with compression, format conversion, watermarking,
+                        and batch processing. Zero uploads, zero quality loss.
+                    </p>
+                    <a href="#" class="tool-link">
+                        Coming Soon
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Tool 4: Squicky Dev -->
+                <div class="tool-card reveal reveal-delay-4">
+                    <span class="tool-badge soon">Soon</span>
+                    <div class="tool-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3 class="tool-title">Squicky Dev</h3>
+                    <p class="tool-desc">
+                        Developer utilities: JSON formatter, regex tester, base64 encoder, color picker,
+                        hash generator, and more. All in one tab, all offline-capable.
+                    </p>
+                    <a href="#" class="tool-link">
+                        Coming Soon
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         GAMES SECTION
+         ============================================================ -->
+    <section id="games">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Play</span>
+                <h2 class="section-title">Web Games</h2>
+                <p class="section-desc">
+                    Quick, addictive browser games. No downloads, no installs, no sign-ups &mdash; just play.
+                </p>
+            </div>
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-card reveal reveal-delay-1">
+                    <div class="game-thumb">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="1.5" opacity="0.6">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                        <span class="game-badge">Coming Soon</span>
+                        <div class="game-overlay">
+                            <span class="game-overlay-text">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Squicky Run</h3>
+                        <p class="game-desc">An endless runner with procedurally generated levels, power-ups, and global leaderboards.</p>
+                    </div>
+                </div>
+                <!-- Game 2 -->
+                <div class="game-card reveal reveal-delay-2">
+                    <div class="game-thumb">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" stroke-width="1.5" opacity="0.6">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                        <span class="game-badge">Coming Soon</span>
+                        <div class="game-overlay">
+                            <span class="game-overlay-text">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Puzzle Quest</h3>
+                        <p class="game-desc">Brain-teasing puzzles with beautiful minimalist design, daily challenges, and a relaxing soundtrack.</p>
+                    </div>
+                </div>
+                <!-- Game 3 -->
+                <div class="game-card reveal reveal-delay-3">
+                    <div class="game-thumb">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="1.5" opacity="0.6">
+                            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+                            <line x1="12" y1="22" x2="12" y2="15.5"/>
+                            <polyline points="22 8.5 12 15.5 2 8.5"/>
+                        </svg>
+                        <span class="game-badge">Coming Soon</span>
+                        <div class="game-overlay">
+                            <span class="game-overlay-text">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Tower Defense Pro</h3>
+                        <p class="game-desc">Strategic tower defense with upgradeable units, boss waves, and competitive multiplayer mode.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================
+         BLOG SECTION
+         ============================================================ -->
+    <section id="blog">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Blog</span>
+                <h2 class="section-title">Latest Articles</h2>
+                <p class="section-desc">
+                    Insights, tutorials, and updates from the Squicky team.
+                </p>
+            </div>
+            <div class="blog-grid">
+                <!-- Blog 1 -->
+                <article class="blog-card reveal reveal-delay-1">
+                    <div class="blog-thumb">
+                        <span class="blog-category">Engineering</span>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Building a Zero-Upload PDF Tool for the Modern Web</h3>
+                        <p class="blog-excerpt">
+                            How we built Squicky PDF to process everything client-side using WebAssembly
+                            and modern browser APIs, keeping your documents completely private.
+                        </p>
+                        <div class="blog-meta">
+                            <span>5 min read</span>
+                            <span>&bull;</span>
+                            <span>Jun 15, 2025</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Blog 2 -->
+                <article class="blog-card reveal reveal-delay-2">
+                    <div class="blog-thumb">
+                        <span class="blog-category">Product</span>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Squicky Player v0.3: HLS, DASH, and Beyond</h3>
+                        <p class="blog-excerpt">
+                            Our latest release adds adaptive streaming support, chapter markers,
+                            subtitle management, and a completely redesigned player UI.
+                        </p>
+                        <div class="blog-meta">
+                            <span>4 min read</span>
+                            <span>&bull;</span>
+                            <span>Jun 10, 2025</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Blog 3 -->
+                <article class="blog-card reveal reveal-delay-3">
+                    <div class="blog-thumb">
+                        <span class="blog-category">Privacy</span>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">Why Privacy-First Tools Matter in 2025</h3>
+                        <p class="blog-excerpt">
+                            A deep dive into our philosophy: no trackers, no analytics, no server uploads.
+                            Your data stays yours, always. Here is why that matters more than ever.
+                        </p>
+                        <div class="blog-meta">
+                            <span>6 min read</span>
+                            <span>&bull;</span>
+                            <span>Jun 5, 2025</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         ABOUT SECTION
+         ============================================================ -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">About</span>
+                <h2 class="section-title">The Squicky Story</h2>
+            </div>
+            <div class="about-content">
+                <p class="about-text reveal">
+                    Squicky was born from a simple frustration:
+                    <span class="about-highlight">why do simple web tools need to be so bloated, slow, and privacy-invasive?</span>
+                </p>
+                <p class="about-text reveal">
+                    We set out to build a suite of premium web tools that run entirely in your browser.
+                    No server uploads, no tracking pixels, no subscription walls. Just
+                    <span class="about-highlight">fast, beautiful, and private</span> tools that work the moment you open them.
+                </p>
+                <p class="about-text reveal">
+                    From our universal media player to our PDF toolkit, every Squicky product is crafted
+                    with obsessive attention to performance and design. We believe the web can be better
+                    &mdash; and we are building it, one tool at a time.
+                </p>
+                <a href="#tools" class="about-cta reveal">
+                    Explore Our Tools
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo-link">
+                        <svg class="logo-svg" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:36px;height:36px">
+                            <rect x="1.5" y="1.5" width="39" height="39" rx="10" ry="10"
+                                  stroke="currentColor" stroke-width="2" fill="none"
+                                  style="color: var(--accent-primary)"/>
+                            <ellipse cx="21" cy="20" rx="9" ry="8.5"
+                                     stroke="currentColor" stroke-width="1.5" fill="none"
+                                     style="color: var(--text-primary)"/>
+                            <circle cx="17.5" cy="18.5" r="1.8"
+                                    fill="currentColor" style="color: var(--text-primary)"/>
+                            <circle cx="24.5" cy="18.5" r="1.8"
+                                    fill="currentColor" style="color: var(--text-primary)"/>
+                            <ellipse cx="21" cy="22.5" rx="1.2" ry="0.9"
+                                     fill="currentColor" style="color: var(--accent-primary)"/>
+                            <text x="21" y="37" text-anchor="middle"
+                                  font-family="'Space Grotesk', sans-serif"
+                                  font-size="5.5" font-weight="700"
+                                  fill="currentColor" style="color: var(--text-primary)">SQUICKY</text>
+                        </svg>
+                        <span class="logo-text">Squicky</span>
+                    </a>
+                    <p>
+                        Premium web tools and games hub. Built for speed, designed for privacy,
+                        crafted with care. Your data never leaves your browser.
+                    </p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" class="newsletter-input"
+                               placeholder="Enter your email" required
+                               aria-label="Email address for newsletter">
+                        <button type="submit" class="newsletter-btn">Subscribe</button>
+                    </form>
+                </div>
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <a href="#">Squicky Player</a>
+                    <a href="#">Squicky PDF</a>
+                    <a href="#">Squicky Image</a>
+                    <a href="#">Squicky Dev</a>
+                    <a href="#">Squicky Games</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">API Reference</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Changelog</a>
+                    <a href="#">Status Page</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Careers</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Squicky.in &mdash; All rights reserved. Built with care in India.</p>
+                <div class="footer-socials">
+                    <a href="#" title="Twitter / X" aria-label="Follow us on Twitter">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="GitHub" aria-label="Visit our GitHub">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="YouTube" aria-label="Subscribe on YouTube">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="Discord" aria-label="Join our Discord">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ============================================================
+         JAVASCRIPT
+         ============================================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        /* ========================================
+           THEME MANAGEMENT
+           ======================================== */
+        const root = document.documentElement;
+        const themeBtns = document.querySelectorAll('.theme-btn');
+        const savedTheme = localStorage.getItem('squicky-theme') || 'dark';
+
+        function setTheme(theme) {
+            root.setAttribute('data-theme', theme);
+            localStorage.setItem('squicky-theme', theme);
+            themeBtns.forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+        }
+
+        // Initialize theme
+        setTheme(savedTheme);
+
+        // Theme button listeners
+        themeBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                setTheme(btn.dataset.theme);
+            });
+        });
+
+        /* ========================================
+           MOBILE NAVIGATION
+           ======================================== */
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        hamburger.addEventListener('click', function() {
+            const isActive = hamburger.classList.toggle('active');
+            mobileNav.classList.toggle('open');
+            hamburger.setAttribute('aria-expanded', isActive.toString());
+        });
+
+        // Close mobile nav on link click
+        var mobileLinks = mobileNav.querySelectorAll('a');
+        mobileLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                mobileNav.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Close mobile nav on outside click
+        document.addEventListener('click', function(e) {
+            if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+                hamburger.classList.remove('active');
+                mobileNav.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        /* ========================================
+           PARTICLES SYSTEM
+           ======================================== */
+        var particlesContainer = document.getElementById('particles');
+        var particleCount = 35;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function createParticles() {
+            if (prefersReducedMotion) return;
+
+            for (var i = 0; i < particleCount; i++) {
+                var particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = (Math.random() * 100) + '%';
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 15) + 's';
+
+                var size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+
+                // Alternate colors
+                if (Math.random() > 0.5) {
+                    particle.style.background = 'var(--accent-secondary)';
+                }
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        /* ========================================
+           SCROLL REVEAL (IntersectionObserver)
+           ======================================== */
+        var revealElements = document.querySelectorAll('.reveal');
+
+        var observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -60px 0px'
+        };
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(function(el) {
+            observer.observe(el);
+        });
+
+        /* ========================================
+           HEADER SCROLL BEHAVIOR
+           ======================================== */
+        var header = document.getElementById('mainHeader');
+        var scrollThreshold = 50;
+
+        function handleScroll() {
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollY > scrollThreshold) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll(); // Initial check
+
+        /* ========================================
+           PLAY BUTTON INTERACTION
+           ======================================== */
+        var playBtn = document.getElementById('playBtn');
+        var isPlaying = false;
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+                playBtn.setAttribute('aria-label', 'Pause featured video');
+            } else {
+                playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32" fill="#fff" style="margin-left:4px"><polygon points="5,3 19,12 5,21"/></svg>';
+                playBtn.setAttribute('aria-label', 'Play featured video');
+            }
+        }
+
+        playBtn.addEventListener('click', togglePlay);
+        playBtn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                togglePlay();
+            }
+        });
+
+        /* ========================================
+           SMOOTH SCROLL FOR ANCHOR LINKS
+           ======================================== */
+        var anchorLinks = document.querySelectorAll('a[href^="#"]');
+        anchorLinks.forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                var href = this.getAttribute('href');
+                if (href === '#') return;
+
+                var target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    var headerOffset = 80;
+                    var elementPosition = target.getBoundingClientRect().top;
+                    var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+                    });
+                }
+            });
+        });
+
+        /* ========================================
+           NEWSLETTER FORM
+           ======================================== */
+        var newsletterForm = document.getElementById('newsletterForm');
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var btn = this.querySelector('.newsletter-btn');
+            var input = this.querySelector('.newsletter-input');
+            var originalText = btn.textContent;
+
+            btn.textContent = 'Subscribed!';
+            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            input.value = '';
+
+            setTimeout(function() {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 3000);
+        });
+
+        /* ========================================
+           KEYBOARD ACCESSIBILITY
+           ======================================== */
+        // Focus visible styles
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-nav');
+        });
+
+    })();
+    </script>
+</body>
+</html>
