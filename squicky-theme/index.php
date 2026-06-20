@@ -12,7 +12,7 @@ get_header();
     <div class="container">
         <div class="section-header reveal">
             <span class="section-label">Blog</span>
-            <h2 class="section-title"><?php single_post_title(); ?></h2>
+            <h2 class="section-title"><?php echo is_home() ? 'Blog' : single_post_title( '', false ); ?></h2>
             <p class="section-desc">
                 Insights, tutorials, and updates from the Squicky team.
             </p>

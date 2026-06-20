@@ -9,7 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'SQUICKY_THEME_VERSION', '1.0.0' );
+if ( ! defined( 'SQUICKY_THEME_VERSION' ) ) {
+    define( 'SQUICKY_THEME_VERSION', '1.0.0' );
+}
 
 /**
  * Theme setup
@@ -137,9 +139,15 @@ add_action( 'widgets_init', 'squicky_theme_widgets_init' );
 /**
  * Include customizer settings
  */
-require get_template_directory() . '/inc/customizer.php';
+$customizer_file = get_template_directory() . '/inc/customizer.php';
+if ( file_exists( $customizer_file ) ) {
+    require $customizer_file;
+}
 
 /**
  * Include template tags
  */
-require get_template_directory() . '/inc/template-tags.php';
+$template_tags_file = get_template_directory() . '/inc/template-tags.php';
+if ( file_exists( $template_tags_file ) ) {
+    require $template_tags_file;
+}

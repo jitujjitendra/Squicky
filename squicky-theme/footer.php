@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <?php echo date( 'Y' ); ?> <?php bloginfo( 'name' ); ?> &mdash; All rights reserved. Built with care in India.</p>
+                <p>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?> &mdash; All rights reserved. Built with care in India.</p>
                 <div class="footer-socials">
                     <a href="#" title="Twitter / X" aria-label="Follow us on Twitter">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
