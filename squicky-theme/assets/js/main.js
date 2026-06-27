@@ -109,6 +109,9 @@
             var modeBtnAd     = document.getElementById('modeAd');
             var adToggle      = document.getElementById('adToggle');
 
+            // Only run if player elements exist on this page
+            if (!adSlidesView || !playerPlayBtn) return;
+
             if (mode === 'ad') {
                 adSlidesView.classList.add('active');
                 playerPlayBtn.style.display = 'none';
@@ -144,8 +147,9 @@
         window.toggleAdminPanel = function() {
             var body = document.getElementById('adminPanelBody');
             var icon = document.getElementById('adminToggleIcon');
+            if (!body || !icon) return;
             var isOpen = body.classList.toggle('open');
-            icon.textContent = isOpen ? '▴' : '▾';
+            icon.textContent = isOpen ? '\u25B4' : '\u25BE';
         };
 
         // Restore saved player mode
